@@ -12,18 +12,30 @@ from ..st_utils import get_backend_api_client
 class LaunchStrategyV2(Dashboard.Item):
     DEFAULT_ROWS = []
     DEFAULT_COLUMNS = [
-        {"field": 'config_base', "headerName": 'Config Base', "minWidth": 160, "editable": False, },
-        {"field": 'version', "headerName": 'Version', "minWidth": 100, "editable": False, },
-        {"field": 'controller_name', "headerName": 'Controller Name', "width": 150, "editable": False, },
-        {"field": 'controller_type', "headerName": 'Controller Type', "width": 150, "editable": False, },
-        {"field": 'connector_name', "headerName": 'Connector', "width": 150, "editable": False, },
-        {"field": 'trading_pair', "headerName": 'Trading pair', "width": 140, "editable": False, },
-        {"field": 'total_amount_quote', "headerName": 'Total amount ($)', "width": 140, "editable": False, },
-        {"field": 'max_loss_quote', "headerName": 'Max loss ($)', "width": 120, "editable": False, },
-        {"field": 'stop_loss', "headerName": 'SL (%)', "width": 100, "editable": False, },
-        {"field": 'take_profit', "headerName": 'TP (%)', "width": 100, "editable": False, },
-        {"field": 'trailing_stop', "headerName": 'TS (%)', "width": 120, "editable": False, },
-        {"field": 'time_limit', "headerName": 'Time limit', "width": 100, "editable": False, },
+        {"field": 'config_base', "headerName": 'Config Base',
+            "minWidth": 160, "editable": False, },
+        {"field": 'version', "headerName": 'Version',
+            "minWidth": 100, "editable": False, },
+        {"field": 'controller_name', "headerName": 'Controller Name',
+            "width": 150, "editable": False, },
+        {"field": 'controller_type', "headerName": 'Controller Type',
+            "width": 150, "editable": False, },
+        {"field": 'connector_name', "headerName": 'Connector',
+            "width": 150, "editable": False, },
+        {"field": 'trading_pair', "headerName": 'Trading pair',
+            "width": 140, "editable": False, },
+        {"field": 'total_amount_quote',
+            "headerName": 'Total amount ($)', "width": 140, "editable": False, },
+        {"field": 'max_loss_quote',
+            "headerName": 'Max loss ($)', "width": 120, "editable": False, },
+        {"field": 'stop_loss',
+            "headerName": 'SL (%)', "width": 100, "editable": False, },
+        {"field": 'take_profit',
+            "headerName": 'TP (%)', "width": 100, "editable": False, },
+        {"field": 'trailing_stop',
+            "headerName": 'TS (%)', "width": 120, "editable": False, },
+        {"field": 'time_limit', "headerName": 'Time limit',
+            "width": 100, "editable": False, },
     ]
 
     def __init__(self, *args, **kwargs):
@@ -32,7 +44,7 @@ class LaunchStrategyV2(Dashboard.Item):
         self._controller_configs_available = self._backend_api_client.get_all_controllers_config()
         self._controller_config_selected = None
         self._bot_name = None
-        self._image_name = "hummingbot/hummingbot:latest"
+        self._image_name = "buddhasource/hummingbot:tegro"
         self._credentials = "master_account"
 
     def _set_bot_name(self, event):
@@ -84,15 +96,18 @@ class LaunchStrategyV2(Dashboard.Item):
     def delete_selected_configs(self):
         if self._controller_config_selected:
             for config in self._controller_config_selected:
-                response = self._backend_api_client.delete_controller_config(config)
+                response = self._backend_api_client.delete_controller_config(
+                    config)
                 st.success(response)
             self._controller_configs_available = self._backend_api_client.get_all_controllers_config()
         else:
-            st.warning("You need to select the controllers configs that you want to delete.")
+            st.warning(
+                "You need to select the controllers configs that you want to delete.")
 
     def __call__(self):
         with mui.Paper(key=self._key,
-                       sx={"display": "flex", "flexDirection": "column", "borderRadius": 3, "overflow": "hidden"},
+                       sx={"display": "flex", "flexDirection": "column",
+                           "borderRadius": 3, "overflow": "hidden"},
                        elevation=1):
             with self.title_bar(padding="10px 15px 10px 15px", dark_switcher=False):
                 mui.Typography("🎛️ Bot Configuration", variant="h5")
@@ -102,10 +117,11 @@ class LaunchStrategyV2(Dashboard.Item):
                     mui.TextField(label="Instance Name", variant="outlined", onChange=lazy(self._set_bot_name),
                                   sx={"width": "100%"})
                 with mui.Grid(item=True, xs=4):
-                    available_images = self._backend_api_client.get_available_images("hummingbot")
+                    available_images = self._backend_api_client.get_available_images(
+                        "hummingbot")
                     with mui.FormControl(variant="standard", sx={"width": "100%"}):
                         mui.FormHelperText("Available Images")
-                        with mui.Select(label="Hummingbot Image", defaultValue="hummingbot/hummingbot:latest",
+                        with mui.Select(label="Hummingbot Image", defaultValue="buddhasource/hummingbot:tegro",
                                         variant="standard", onChange=lazy(self._set_image_name)):
                             for image in available_images:
                                 mui.MenuItem(image, value=image)
@@ -116,7 +132,8 @@ class LaunchStrategyV2(Dashboard.Item):
                         with mui.Select(label="Credentials", defaultValue="master_account",
                                         variant="standard", onChange=lazy(self._set_credentials)):
                             for master_config in available_credentials:
-                                mui.MenuItem(master_config, value=master_config)
+                                mui.MenuItem(
+                                    master_config, value=master_config)
                 all_controllers_config = self._backend_api_client.get_all_controllers_config()
                 data = []
                 for config in all_controllers_config:
@@ -125,7 +142,8 @@ class LaunchStrategyV2(Dashboard.Item):
                     total_amount_quote = config.get("total_amount_quote", 0)
                     stop_loss = config.get("stop_loss", 0)
                     take_profit = config.get("take_profit", 0)
-                    trailing_stop = config.get("trailing_stop", {"activation_price": 0, "trailing_delta": 0})
+                    trailing_stop = config.get(
+                        "trailing_stop", {"activation_price": 0, "trailing_delta": 0})
                     time_limit = config.get("time_limit", 0)
                     config_version = config["id"].split("_")
                     if len(config_version) > 1:
@@ -141,7 +159,7 @@ class LaunchStrategyV2(Dashboard.Item):
                         "total_amount_quote": total_amount_quote, "max_loss_quote": total_amount_quote * stop_loss / 2,
                         "stop_loss": stop_loss, "take_profit": take_profit,
                         "trailing_stop": str(trailing_stop["activation_price"]) + " / " +
-                                         str(trailing_stop["trailing_delta"]),
+                        str(trailing_stop["trailing_delta"]),
                         "time_limit": time_limit})
 
                 with mui.Grid(item=True, xs=12):
@@ -152,7 +170,8 @@ class LaunchStrategyV2(Dashboard.Item):
                         with self.title_bar(padding="10px 15px 10px 15px", dark_switcher=False):
                             with mui.Grid(container=True, spacing=2):
                                 with mui.Grid(item=True, xs=8):
-                                    mui.Typography("🗄️ Available Configurations", variant="h6")
+                                    mui.Typography(
+                                        "🗄️ Available Configurations", variant="h6")
                                 with mui.Grid(item=True, xs=2):
                                     with mui.Button(onClick=self.delete_selected_configs,
                                                     variant="outlined",

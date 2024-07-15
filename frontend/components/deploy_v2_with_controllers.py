@@ -19,7 +19,7 @@ class LaunchV2WithControllers:
         self._controller_configs_available = self._backend_api_client.get_all_controllers_config()
         self._controller_config_selected = []
         self._bot_name = None
-        self._image_name = "hummingbot/hummingbot:latest"
+        self._image_name = "buddhasource/hummingbot:tegro"
         self._credentials = "master_account"
 
     def _set_bot_name(self, bot_name):
@@ -72,7 +72,8 @@ class LaunchV2WithControllers:
             total_amount_quote = config.get("total_amount_quote", 0)
             stop_loss = config.get("stop_loss", 0)
             take_profit = config.get("take_profit", 0)
-            trailing_stop = config.get("trailing_stop", {"activation_price": 0, "trailing_delta": 0})
+            trailing_stop = config.get(
+                "trailing_stop", {"activation_price": 0, "trailing_delta": 0})
             time_limit = config.get("time_limit", 0)
             data.append({
                 "selected": False,
@@ -93,18 +94,21 @@ class LaunchV2WithControllers:
 
         edited_df = st.data_editor(df, hide_index=True)
 
-        self._controller_config_selected = [f"{config}.yml" for config in edited_df[edited_df["selected"]]["id"].tolist()]
+        self._controller_config_selected = [
+            f"{config}.yml" for config in edited_df[edited_df["selected"]]["id"].tolist()]
         st.write(self._controller_config_selected)
         c1, c2, c3, c4 = st.columns([1, 1, 1, 0.3])
         with c1:
             self._bot_name = st.text_input("Instance Name")
         with c2:
-            available_images = self._backend_api_client.get_available_images("hummingbot")
+            available_images = self._backend_api_client.get_available_images(
+                "hummingbot")
             self._image_name = st.selectbox("Hummingbot Image", available_images,
-                                            index=available_images.index("hummingbot/hummingbot:latest"))
+                                            index=available_images.index("buddhasource/hummingbot:tegro"))
         with c3:
             available_credentials = self._backend_api_client.get_accounts()
-            self._credentials = st.selectbox("Credentials", available_credentials, index=0)
+            self._credentials = st.selectbox(
+                "Credentials", available_credentials, index=0)
         with c4:
             deploy_button = st.button("Deploy Bot")
         if deploy_button:
