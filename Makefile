@@ -13,7 +13,7 @@ install:
 	conda env create -f environment_conda.yml
 
 docker_build:
-	docker build -t buddhasource/dashboard:latest .
+	docker build -t isreallee82/dashboard:latest .
 
 docker_run:
 	docker run -p 8501:8501 dashboard:latest

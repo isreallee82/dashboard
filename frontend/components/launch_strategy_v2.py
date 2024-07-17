@@ -44,7 +44,7 @@ class LaunchStrategyV2(Dashboard.Item):
         self._controller_configs_available = self._backend_api_client.get_all_controllers_config()
         self._controller_config_selected = None
         self._bot_name = None
-        self._image_name = "buddhasource/hummingbot:tegro"
+        self._image_name = "isreallee82/hummingbot:tegro"
         self._credentials = "master_account"
 
     def _set_bot_name(self, event):
@@ -121,7 +121,7 @@ class LaunchStrategyV2(Dashboard.Item):
                         "hummingbot")
                     with mui.FormControl(variant="standard", sx={"width": "100%"}):
                         mui.FormHelperText("Available Images")
-                        with mui.Select(label="Hummingbot Image", defaultValue="buddhasource/hummingbot:tegro",
+                        with mui.Select(label="Hummingbot Image", defaultValue="isreallee82/hummingbot:tegro",
                                         variant="standard", onChange=lazy(self._set_image_name)):
                             for image in available_images:
                                 mui.MenuItem(image, value=image)
