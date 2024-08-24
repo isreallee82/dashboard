@@ -15,7 +15,7 @@ class LaunchBotCard(Dashboard.Item):
         super().__init__(*args, **kwargs)
         self.is_master_bot_running = False
         self._bot_name = None
-        self._image_name = "hummingbot/hummingbot:latest"
+        self._image_name = "buddhasource/hummingbot:volume"
         self._base_bot_config = "master_bot_conf"
 
     def _set_bot_name(self, event):
@@ -81,7 +81,7 @@ class LaunchBotCard(Dashboard.Item):
                                     sx={"width": "100%"})
                 with mui.Grid(item=True, xs=4):
                     mui.TextField(label="Hummingbot Image", 
-                                  defaultValue="hummingbot/hummingbot:latest",
+                                  defaultValue="buddhasource/hummingbot:volume",
                                   variant="outlined",
                                   placeholder="hummingbot-[name]",
                                   onChange=lazy(self._set_image_name),
