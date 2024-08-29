@@ -46,7 +46,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: hummingbot/dashboard:latest
+          tags: buddhasource/dashboard:latest
 
   build_release:
     if: github.event_name == 'release'

@@ -18,7 +18,7 @@ class LaunchV2WithControllers:
         self._controller_configs_available = self._backend_api_client.get_all_controllers_config()
         self._controller_config_selected = []
         self._bot_name = None
-        self._image_name = "hummingbot/hummingbot:volume"
+        self._image_name = "buddhasource/hummingbot:volume"
         self._credentials = "master_account"
 
     def _set_bot_name(self, bot_name):
@@ -101,7 +101,7 @@ class LaunchV2WithControllers:
         with c2:
             available_images = self._backend_api_client.get_available_images("hummingbot")
             self._image_name = st.selectbox("Hummingbot Image", available_images,
-                                            index=available_images.index("hummingbot/hummingbot:volume"))
+                                            index=available_images.index("buddhasource/hummingbot:volume"))
         with c3:
             available_credentials = self._backend_api_client.get_accounts()
             self._credentials = st.selectbox("Credentials", available_credentials, index=0)
