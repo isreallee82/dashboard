@@ -9,6 +9,7 @@ def public_pages():
     return [
         Section("Config Generator", "🎛️"),
         Page("frontend/pages/config/pmm_simple/app.py", "PMM Simple", "👨‍🏫"),
+        Page("frontend/pages/config/simple_pmm/app.py", "Simple PMM", "👨‍🏫"),
         Page("frontend/pages/config/pmm_dynamic/app.py", "PMM Dynamic", "👩‍🏫"),
         Page("frontend/pages/config/dman_maker_v2/app.py", "D-Man Maker V2", "🤖"),
         Page("frontend/pages/config/bollinger_v1/app.py", "Bollinger V1", "📈"),
@@ -28,6 +29,7 @@ def private_pages():
         Section("Bot Orchestration", "🐙"),
         Page("frontend/pages/orchestration/instances/app.py", "Instances", "🦅"),
         Page("frontend/pages/orchestration/launch_bot_v2/app.py", "Deploy V2", "🚀"),
+        Page("frontend/pages/orchestration/launch_bot_v1/app.py", "Deploy V1", "🚀"),
         Page("frontend/pages/orchestration/credentials/app.py", "Credentials", "🔑"),
         Page("frontend/pages/orchestration/portfolio/app.py", "Portfolio", "💰"),
     ]
